@@ -40,8 +40,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (session?.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED')) {
                 // Solo cargar perfil si cambiamos de usuario o es carga inicial
                 if (state.user?.id !== session.user.id || !state.profile) {
-                    const profile = await authService.getUserProfile(session.user.id);
-                    setState({ user: session.user, profile, loading: false });
+                    try {
+                        const profile = await authService.getUserProfile(session.user.id);
+                        setState({ user: session.user, profile, loading: false });
+                    } catch (err) {
+                        console.error('Error fetching profile in AuthStateChange:', err);
+                        // Even if profile fails, we stop loading. User might need redirect or retry.
+                        setState({ user: session.user, profile: null, loading: false });
+                    }
                 } else {
                     // Si ya tenemos usuario y perfil, solo asegurar loading false
                     setState(current => ({ ...current, user: session.user, loading: false }));

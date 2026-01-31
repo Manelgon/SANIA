@@ -57,7 +57,8 @@ SELECT
   p.phone,
   p.fid,
   p.role,
-  fd.especialidad,
+  COALESCE(e.nombre, fd.especialidad) as especialidad,
+  fd.especialidad_id,
   fd.num_colegiado,
   fd.cif,
   fd.direccion,
@@ -68,6 +69,7 @@ SELECT
   fd.actualizado_en
 FROM public.facultativos_detalle fd
 JOIN public.profiles p ON p.id = fd.profile_id
+LEFT JOIN public.especialidades e ON e.id = fd.especialidad_id
 WHERE p.role = 'medico';
 
 -- Tabla para documentos del facultativo

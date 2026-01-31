@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { X, User, Mail, Briefcase, Hash, Loader2, CheckCircle2, UserPlus, Phone, MapPin, Building, FileText, Upload, Trash2, File } from 'lucide-react';
 import { adminService } from '../../../services/adminService';
-import { FacultativoFull } from '../types';
+import { FacultativoFull, Specialty } from '../types';
 
 const facultativoSchema = z.object({
     email: z.string().email('Email inválido'),
     nombre: z.string().min(2, 'Nombre requerido'),
     apellido1: z.string().min(2, 'Primer apellido requerido'),
     apellido2: z.string().optional(),
-    especialidad: z.string().min(2, 'Especialidad requerida'),
+    especialidad_id: z.string().uuid('Selecciona una especialidad'),
     num_colegiado: z.string().min(3, 'Número de colegiado requerido'),
     phone: z.string().optional(),
     cif: z.string().optional(),
@@ -32,6 +32,21 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
     const [selectedFiles, setSelectedFiles] = useState<{ file: File; label: string }[]>([]);
+    const [specialties, setSpecialties] = useState<Specialty[]>([]);
+
+    useEffect(() => {
+        const loadSpecialties = async () => {
+            try {
+                const data = await adminService.getSpecialties();
+                setSpecialties(data);
+            } catch (err) {
+                console.error('Error loading specialties:', err);
+            }
+        };
+        if (isOpen) {
+            loadSpecialties();
+        }
+    }, [isOpen]);
 
     const {
         register,
@@ -204,12 +219,16 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Especialidad</label>
-                                        <input
-                                            {...register('especialidad')}
-                                            className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.especialidad ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white`}
-                                            placeholder="Ej: Medicina Familiar"
-                                        />
-                                        {errors.especialidad && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.especialidad.message}</p>}
+                                        <select
+                                            {...register('especialidad_id')}
+                                            className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.especialidad_id ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white appearance-none`}
+                                        >
+                                            <option value="">Seleccionar especialidad...</option>
+                                            {specialties.map(s => (
+                                                <option key={s.id} value={s.id}>{s.nombre}</option>
+                                            ))}
+                                        </select>
+                                        {errors.especialidad_id && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.especialidad_id.message}</p>}
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Nº Colegiado</label>

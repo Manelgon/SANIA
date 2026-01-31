@@ -1,4 +1,4 @@
--- admin_helpers.sql
+    -- admin_helpers.sql
 -- Función para que un administrador pueda crear médicos directamente
 
 CREATE OR REPLACE FUNCTION public.admin_create_doctor(
@@ -11,7 +11,8 @@ CREATE OR REPLACE FUNCTION public.admin_create_doctor(
   p_phone text DEFAULT NULL,
   p_cif text DEFAULT NULL,
   p_direccion text DEFAULT NULL,
-  p_bio text DEFAULT NULL
+  p_bio text DEFAULT NULL,
+  p_especialidad_id uuid DEFAULT NULL
 )
 RETURNS uuid
 LANGUAGE plpgsql
@@ -84,20 +85,22 @@ BEGIN
     num_colegiado,
     cif,
     direccion,
-    bio
+    bio,
+    especialidad_id
   ) VALUES (
     new_user_id,
     p_especialidad,
     p_num_colegiado,
     p_cif,
     p_direccion,
-    p_bio
+    p_bio,
+    p_especialidad_id
   );
 
   RETURN new_user_id;
 END;
 $$;
 
-ALTER FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text) OWNER TO postgres;
-REVOKE EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text) TO authenticated;
+ALTER FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid) OWNER TO postgres;
+REVOKE EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid) TO authenticated;

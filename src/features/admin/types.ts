@@ -1,3 +1,8 @@
+export interface Specialty {
+    id: string;
+    nombre: string;
+}
+
 export interface FacultativoFull {
     id: string;
     profile_id: string;
@@ -9,6 +14,7 @@ export interface FacultativoFull {
     phone: string | null;
     fid: string | null;
     especialidad: string | null;
+    especialidad_id: string | null;
     num_colegiado: string | null;
     cif: string | null;
     direccion: string | null;

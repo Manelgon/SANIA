@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import type { FacultativoFull, AdminStats } from '../features/admin/types';
+import type { FacultativoFull, AdminStats, Specialty } from '../features/admin/types';
 
 export const adminService = {
     async getFacultativos(): Promise<FacultativoFull[]> {
@@ -7,6 +7,16 @@ export const adminService = {
             .from('facultativos_detalle_view')
             .select('*')
             .order('full_name', { ascending: true });
+
+        if (error) throw error;
+        return data || [];
+    },
+
+    async getSpecialties(): Promise<Specialty[]> {
+        const { data, error } = await supabase
+            .from('especialidades')
+            .select('*')
+            .order('nombre', { ascending: true });
 
         if (error) throw error;
         return data || [];
@@ -41,12 +51,13 @@ export const adminService = {
             p_nombre: payload.nombre,
             p_apellido1: payload.apellido1,
             p_apellido2: payload.apellido2 || null,
-            p_especialidad: payload.especialidad,
+            p_especialidad: payload.especialidad || null,
             p_num_colegiado: payload.num_colegiado,
             p_phone: payload.phone || null,
             p_cif: payload.cif || null,
             p_direccion: payload.direccion || null,
-            p_bio: payload.bio || null
+            p_bio: payload.bio || null,
+            p_especialidad_id: payload.especialidad_id || null
         });
 
         if (error) throw error;

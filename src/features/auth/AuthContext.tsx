@@ -36,11 +36,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         loadUser();
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            if (event === 'SIGNED_IN' && session?.user) {
-                const profile = await authService.getUserProfile(session.user.id);
-                setState({ user: session.user, profile, loading: false });
+            console.log('DEBUG: Auth State Change:', event);
+            if (session?.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED')) {
+                // Solo cargar perfil si cambiamos de usuario o es carga inicial
+                if (state.user?.id !== session.user.id || !state.profile) {
+                    const profile = await authService.getUserProfile(session.user.id);
+                    setState({ user: session.user, profile, loading: false });
+                } else {
+                    // Si ya tenemos usuario y perfil, solo asegurar loading false
+                    setState(current => ({ ...current, user: session.user, loading: false }));
+                }
             } else if (event === 'SIGNED_OUT') {
                 setState({ user: null, profile: null, loading: false });
+            } else {
+                // Para otros eventos, asegurar que loading se quite si ya terminó la carga inicial
+                if (state.loading) {
+                    // Si no hay sesión y el evento no es de login, terminar carga
+                    if (!session) setState({ user: null, profile: null, loading: false });
+                }
             }
         });
 

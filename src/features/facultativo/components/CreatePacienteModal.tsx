@@ -37,7 +37,14 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
     } = useForm<PacienteFormValues>({
         resolver: zodResolver(pacienteSchema),
         defaultValues: {
+            nombre: '',
+            apellido1: '',
+            apellido2: '',
+            dni: '',
+            email: '',
             password: '',
+            phone: '',
+            direccion: ''
         }
     });
 
@@ -70,7 +77,7 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                 onClick={isSubmitting || success ? undefined : onClose}
             ></div>
 
-            <div className="relative bg-white dark:bg-slate-800 w-full max-w-2xl rounded-[32px] shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden animate-in zoom-in-95 fade-in duration-300">
+            <div className="relative z-50 bg-white dark:bg-slate-800 w-full max-w-2xl rounded-[32px] shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden animate-in zoom-in-95 fade-in duration-300">
 
                 {isSubmitting && !success ? (
                     <div className="flex flex-col items-center justify-center py-24 animate-in fade-in duration-300">
@@ -122,7 +129,7 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">DNI / NIE</label>
                                             <div className="relative group">
-                                                <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                                <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                                 <input {...register('dni')} className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="12345678A" />
                                             </div>
                                             {errors.dni && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.dni.message}</p>}
@@ -151,7 +158,7 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Email (Usuario)</label>
                                             <div className="relative group">
-                                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                                 <input {...register('email')} className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="paciente@email.com" />
                                             </div>
                                             {errors.email && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.email.message}</p>}
@@ -159,7 +166,7 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Contraseña</label>
                                             <div className="relative group">
-                                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                                 <input {...register('password')} type="password" className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="••••••••" />
                                             </div>
                                             {errors.password && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.password.message}</p>}
@@ -170,14 +177,14 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Teléfono</label>
                                             <div className="relative group">
-                                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                                 <input {...register('phone')} className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="600 000 000" />
                                             </div>
                                         </div>
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Dirección</label>
                                             <div className="relative group">
-                                                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                                 <input {...register('direccion')} className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Domicilio" />
                                             </div>
                                         </div>

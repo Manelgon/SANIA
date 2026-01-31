@@ -22,7 +22,7 @@ RETURNS uuid
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public, auth, extensions, pg_temp
-AS $$
+AS $func$
 DECLARE
   new_user_id uuid;
   v_full_name text;
@@ -103,9 +103,9 @@ BEGIN
 
   RETURN new_user_id;
 END;
-$$;
+$func$;
 
--- Aseguramos los permisos
+-- Aseguramos los permisos (usando los mismos tipos para coincidir con la firma)
 ALTER FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid, text) OWNER TO postgres;
 REVOKE EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid, text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid, text) TO authenticated;

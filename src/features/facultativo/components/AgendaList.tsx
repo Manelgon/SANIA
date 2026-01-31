@@ -1,7 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { Clock, User, ChevronRight, CheckCircle2, Circle } from 'lucide-react';
+import { Clock, ChevronRight, CheckCircle2, Circle } from 'lucide-react';
 
 interface AgendaListProps {
     appointments: any[];
@@ -29,8 +28,8 @@ const AgendaList: React.FC<AgendaListProps> = ({ appointments, onCitaClick }) =>
                         key={cita.id}
                         onClick={() => onCitaClick?.(cita)}
                         className={`flex items-center p-4 bg-white dark:bg-slate-800 rounded-2xl border transition-all duration-200 cursor-pointer group animate-in fade-in slide-in-from-right-4 ${isRealizada
-                                ? 'opacity-60 border-slate-100 dark:border-slate-800'
-                                : 'border-slate-100 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-500 hover:shadow-lg'
+                            ? 'opacity-60 border-slate-100 dark:border-slate-800'
+                            : 'border-slate-100 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-500 hover:shadow-lg'
                             }`}
                         style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'both' }}
                     >

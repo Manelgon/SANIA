@@ -114,7 +114,11 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" autoComplete="off">
+                                {/* Hidden inputs to trick browser autocomplete */}
+                                <input autoComplete="false" name="hidden" type="text" style={{ display: 'none' }} />
+                                <input autoComplete="false" name="hidden" type="password" style={{ display: 'none' }} />
+
                                 <div className="space-y-4">
                                     <h4 className="text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest flex items-center">
                                         <User size={14} className="mr-2" /> Datos Personales
@@ -123,14 +127,14 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Nombre</label>
-                                            <input {...register('nombre')} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Nombre" />
+                                            <input {...register('nombre')} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Nombre" autoComplete="off" />
                                             {errors.nombre && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.nombre.message}</p>}
                                         </div>
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">DNI / NIE</label>
                                             <div className="relative group">
                                                 <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                                                <input {...register('dni')} className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="12345678A" />
+                                                <input {...register('dni')} className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="12345678A" autoComplete="off" />
                                             </div>
                                             {errors.dni && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.dni.message}</p>}
                                         </div>
@@ -139,12 +143,12 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Primer Apellido</label>
-                                            <input {...register('apellido1')} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Apellido 1" />
+                                            <input {...register('apellido1')} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Apellido 1" autoComplete="off" />
                                             {errors.apellido1 && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.apellido1.message}</p>}
                                         </div>
                                         <div className="space-y-1.5">
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Segundo Apellido</label>
-                                            <input {...register('apellido2')} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Apellido 2" />
+                                            <input {...register('apellido2')} className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Apellido 2" autoComplete="off" />
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +163,13 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Email (Usuario)</label>
                                             <div className="relative group">
                                                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                                                <input {...register('email')} className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="paciente@email.com" />
+                                                <input
+                                                    {...register('email')}
+                                                    className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                                                    placeholder="paciente@email.com"
+                                                    autoComplete="new-password" // Hack to prevent autofill
+                                                    role="presentation"
+                                                />
                                             </div>
                                             {errors.email && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.email.message}</p>}
                                         </div>
@@ -167,7 +177,13 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                             <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Contraseña</label>
                                             <div className="relative group">
                                                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                                                <input {...register('password')} type="password" className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="••••••••" />
+                                                <input
+                                                    {...register('password')}
+                                                    type="password"
+                                                    className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                                                    placeholder="••••••••"
+                                                    autoComplete="new-password"
+                                                />
                                             </div>
                                             {errors.password && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.password.message}</p>}
                                         </div>

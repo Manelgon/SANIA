@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { X, User, Mail, Lock, Briefcase, Hash, Loader2, CheckCircle2, UserPlus, Phone, MapPin, Building, FileText, Upload, Trash2, File } from 'lucide-react';
 import { adminService } from '../../../services/adminService';
-import { FacultativoFull, Specialty } from '../types';
+import { Specialty } from '../types';
 
 const facultativoSchema = z.object({
     email: z.string().email('Email inválido'),
@@ -39,7 +39,7 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
         const loadSpecialties = async () => {
             try {
                 const data = await adminService.getSpecialties();
-                setSpecialties(data);
+                setSpecialties(data || []);
             } catch (err) {
                 console.error('Error loading specialties:', err);
             }
@@ -56,6 +56,9 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
         formState: { errors },
     } = useForm<FacultativoFormValues>({
         resolver: zodResolver(facultativoSchema),
+        defaultValues: {
+            password: 'Sania123!',
+        }
     });
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

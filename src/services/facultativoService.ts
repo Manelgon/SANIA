@@ -47,7 +47,7 @@ export const facultativoService = {
         return stats;
     },
 
-    async getPatients(medicoId?: string) {
+    async getPatients(_medicoId?: string) {
         // En teoría, el RLS filtra solo los pacientes de las carteras del médico.
         // Pero tambien podemos filtrar explicitamente si tenemos múltiples carteras.
         // Por ahora confiamos en RLS.

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { facultativoService, PatientFull } from '../../../services/facultativoService';
-import { Search, Plus, User, MoreVertical, Loader2, Calendar, Phone, MapPin } from 'lucide-react';
+import { Search, Plus, User, MoreVertical, Loader2, Calendar, Phone } from 'lucide-react';
 import CreatePacienteModal from './CreatePacienteModal';
 
 const PacientesList: React.FC = () => {

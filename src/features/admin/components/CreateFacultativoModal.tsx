@@ -39,9 +39,11 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
         const loadSpecialties = async () => {
             try {
                 const data = await adminService.getSpecialties();
+                console.log('DEBUG: Specialties response length:', data?.length);
+                console.log('DEBUG: Specialties data:', data);
                 setSpecialties(data || []);
             } catch (err) {
-                console.error('Error loading specialties:', err);
+                console.error('CRITICAL: Error loading specialties:', err);
             }
         };
         if (isOpen) {

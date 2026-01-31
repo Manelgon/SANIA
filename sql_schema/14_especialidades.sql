@@ -10,10 +10,10 @@ CREATE TABLE IF NOT EXISTS public.especialidades (
 -- Habilitar RLS
 ALTER TABLE public.especialidades ENABLE ROW LEVEL SECURITY;
 
--- Cualquiera puede leer especialidades (o al menos autenticados)
+-- Cualquiera puede leer especialidades
+DROP POLICY IF EXISTS "Especialidades legibles por todos" ON public.especialidades;
 CREATE POLICY "Especialidades legibles por todos" 
 ON public.especialidades FOR SELECT 
-TO authenticated
 USING (true);
 
 -- Solo admins pueden gestionar especialidades

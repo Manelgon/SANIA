@@ -132,28 +132,28 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
                                 </h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nombre</label>
+                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Nombre</label>
                                         <input
                                             {...register('nombre')}
-                                            className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.nombre ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm`}
+                                            className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.nombre ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white`}
                                             placeholder="Nombre"
                                         />
                                         {errors.nombre && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.nombre.message}</p>}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">1º Apellido</label>
+                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">1º Apellido</label>
                                         <input
                                             {...register('apellido1')}
-                                            className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.apellido1 ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm`}
+                                            className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.apellido1 ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white`}
                                             placeholder="Apellido 1"
                                         />
                                         {errors.apellido1 && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.apellido1.message}</p>}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">2º Apellido</label>
+                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">2º Apellido</label>
                                         <input
                                             {...register('apellido2')}
-                                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
+                                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white"
                                             placeholder="Apellido 2 (Opcional)"
                                         />
                                     </div>
@@ -161,24 +161,24 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Email Corporativo</label>
+                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Email Corporativo</label>
                                         <div className="relative group">
                                             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                                             <input
                                                 {...register('email')}
-                                                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.email ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm`}
+                                                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.email ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white`}
                                                 placeholder="doctor@sania.com"
                                             />
                                         </div>
                                         {errors.email && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.email.message}</p>}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Teléfono Directo</label>
+                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Teléfono Directo</label>
                                         <div className="relative group">
                                             <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                                             <input
                                                 {...register('phone')}
-                                                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
+                                                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white"
                                                 placeholder="600 000 000"
                                             />
                                         </div>
@@ -192,32 +192,32 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
                                 </h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">CIF / DNI Fiscal</label>
+                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">CIF / DNI Fiscal</label>
                                         <div className="relative group">
                                             <Building className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                                             <input
                                                 {...register('cif')}
-                                                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
+                                                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white"
                                                 placeholder="Fiscal ID"
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Especialidad</label>
+                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Especialidad</label>
                                         <input
                                             {...register('especialidad')}
-                                            className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.especialidad ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm`}
+                                            className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.especialidad ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white`}
                                             placeholder="Ej: Medicina Familiar"
                                         />
                                         {errors.especialidad && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.especialidad.message}</p>}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nº Colegiado</label>
+                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Nº Colegiado</label>
                                         <div className="relative group">
                                             <Hash className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                                             <input
                                                 {...register('num_colegiado')}
-                                                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.num_colegiado ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm`}
+                                                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.num_colegiado ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white`}
                                                 placeholder="Nº Colegiado"
                                             />
                                         </div>
@@ -226,23 +226,23 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
                                 </div>
 
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Dirección Profesional</label>
+                                    <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Dirección Profesional</label>
                                     <div className="relative group">
                                         <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                                         <input
                                             {...register('direccion')}
-                                            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
+                                            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white"
                                             placeholder="Calle, Ciudad, Provincia"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Biografía y Resumen Curricular</label>
+                                    <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Biografía y Resumen Curricular</label>
                                     <textarea
                                         {...register('bio')}
                                         rows={2}
-                                        className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm resize-none"
+                                        className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm resize-none text-slate-900 dark:text-white"
                                         placeholder="Describe brevemente la trayectoria profesional..."
                                     ></textarea>
                                 </div>

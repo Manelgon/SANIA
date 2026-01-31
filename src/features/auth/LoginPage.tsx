@@ -53,7 +53,7 @@ const LoginPage: React.FC = () => {
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="email">
+                            <label className="block text-sm font-black text-slate-900 dark:text-slate-200 mb-1.5" htmlFor="email">
                                 Correo Electrónico
                             </label>
                             <div className="relative group">
@@ -65,21 +65,21 @@ const LoginPage: React.FC = () => {
                                     type="email"
                                     id="email"
                                     placeholder="ejemplo@sania.com"
-                                    className={`block w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border rounded-xl outline-none transition-all duration-200 ${errors.email
+                                    className={`block w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border rounded-xl outline-none transition-all duration-200 text-slate-900 dark:text-white ${errors.email
                                         ? 'border-red-300 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-900/20'
                                         : 'border-slate-200 dark:border-slate-700 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/20'
                                         }`}
                                 />
                             </div>
                             {errors.email && (
-                                <p className="mt-1.5 text-xs text-red-500 flex items-center">
+                                <p className="mt-1.5 text-xs text-red-500 flex items-center font-bold">
                                     <AlertCircle className="w-3 h-3 mr-1" /> {errors.email.message}
                                 </p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="password">
+                            <label className="block text-sm font-black text-slate-900 dark:text-slate-200 mb-1.5" htmlFor="password">
                                 Contraseña
                             </label>
                             <div className="relative group">
@@ -91,14 +91,14 @@ const LoginPage: React.FC = () => {
                                     type="password"
                                     id="password"
                                     placeholder="••••••••"
-                                    className={`block w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border rounded-xl outline-none transition-all duration-200 ${errors.password
+                                    className={`block w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border rounded-xl outline-none transition-all duration-200 text-slate-900 dark:text-white ${errors.password
                                         ? 'border-red-300 focus:ring-4 focus:ring-red-100 dark:focus:ring-red-900/20'
                                         : 'border-slate-200 dark:border-slate-700 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/20'
                                         }`}
                                 />
                             </div>
                             {errors.password && (
-                                <p className="mt-1.5 text-xs text-red-500 flex items-center">
+                                <p className="mt-1.5 text-xs text-red-500 flex items-center font-bold">
                                     <AlertCircle className="w-3 h-3 mr-1" /> {errors.password.message}
                                 </p>
                             )}

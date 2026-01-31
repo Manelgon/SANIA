@@ -87,10 +87,12 @@ CREATE TABLE IF NOT EXISTS public.facultativos_documentos (
 
 ALTER TABLE public.facultativos_documentos ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Admins gestionan documentos facultativos" ON public.facultativos_documentos;
 CREATE POLICY "Admins gestionan documentos facultativos" 
 ON public.facultativos_documentos FOR ALL 
 USING (public.is_admin());
 
+DROP POLICY IF EXISTS "Medicos ven sus propios documentos" ON public.facultativos_documentos;
 CREATE POLICY "Medicos ven sus propios documentos" 
 ON public.facultativos_documentos FOR SELECT 
 USING (EXISTS (SELECT 1 FROM public.facultativos_detalle fd WHERE fd.id = facultativo_id AND fd.profile_id = auth.uid()));

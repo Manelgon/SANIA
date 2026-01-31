@@ -1,5 +1,8 @@
-    -- admin_helpers.sql
+-- admin_helpers.sql
 -- Función para que un administrador pueda crear médicos directamente
+
+-- Necesario para crypt() y gen_salt()
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
 
 CREATE OR REPLACE FUNCTION public.admin_create_doctor(
   p_email text,
@@ -12,12 +15,13 @@ CREATE OR REPLACE FUNCTION public.admin_create_doctor(
   p_cif text DEFAULT NULL,
   p_direccion text DEFAULT NULL,
   p_bio text DEFAULT NULL,
-  p_especialidad_id uuid DEFAULT NULL
+  p_especialidad_id uuid DEFAULT NULL,
+  p_password text DEFAULT 'Sania123!'
 )
 RETURNS uuid
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public, auth, pg_temp
+SET search_path = public, auth, extensions, pg_temp
 AS $$
 DECLARE
   new_user_id uuid;
@@ -30,7 +34,7 @@ BEGIN
 
   v_full_name := trim(p_nombre || ' ' || p_apellido1 || ' ' || COALESCE(p_apellido2, ''));
 
-  -- 2. Crear el usuario en auth.users (usando una contraseña temporal o dummy)
+  -- 2. Crear el usuario en auth.users
   INSERT INTO auth.users (
     instance_id,
     id,
@@ -54,7 +58,7 @@ BEGIN
     'authenticated',
     'authenticated',
     p_email,
-    crypt('Sania123!', gen_salt('bf')),
+    extensions.crypt(p_password, extensions.gen_salt('bf')),
     now(),
     '{"provider":"email","providers":["email"]}',
     format('{"full_name":"%s"}', v_full_name)::jsonb,
@@ -101,6 +105,7 @@ BEGIN
 END;
 $$;
 
-ALTER FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid) OWNER TO postgres;
-REVOKE EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid) TO authenticated;
+-- Aseguramos los permisos
+ALTER FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid, text) OWNER TO postgres;
+REVOKE EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid, text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.admin_create_doctor(text, text, text, text, text, text, text, text, text, text, uuid, text) TO authenticated;

@@ -57,7 +57,8 @@ export const adminService = {
             p_cif: payload.cif || null,
             p_direccion: payload.direccion || null,
             p_bio: payload.bio || null,
-            p_especialidad_id: payload.especialidad_id || null
+            p_especialidad_id: payload.especialidad_id || null,
+            p_password: (payload as any).password || 'Sania123!'
         });
 
         if (error) throw error;

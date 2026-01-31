@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { X, User, Mail, Briefcase, Hash, Loader2, CheckCircle2, UserPlus, Phone, MapPin, Building, FileText, Upload, Trash2, File } from 'lucide-react';
+import { X, User, Mail, Lock, Briefcase, Hash, Loader2, CheckCircle2, UserPlus, Phone, MapPin, Building, FileText, Upload, Trash2, File } from 'lucide-react';
 import { adminService } from '../../../services/adminService';
 import { FacultativoFull, Specialty } from '../types';
 
 const facultativoSchema = z.object({
     email: z.string().email('Email inválido'),
+    password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
     nombre: z.string().min(2, 'Nombre requerido'),
     apellido1: z.string().min(2, 'Primer apellido requerido'),
     apellido2: z.string().optional(),
@@ -76,7 +77,7 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
         setError(null);
         try {
             // 1. Create Facultative
-            const facultativoId = await adminService.createFacultativo(data as FacultativoFull & { email: string });
+            const facultativoId = await adminService.createFacultativo(data as any);
 
             // 2. Upload Documents if any
             if (selectedFiles.length > 0) {
@@ -174,7 +175,7 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                     <div className="space-y-1.5">
                                         <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Email Corporativo</label>
                                         <div className="relative group">
@@ -186,6 +187,19 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
                                             />
                                         </div>
                                         {errors.email && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.email.message}</p>}
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Contraseña de Acceso</label>
+                                        <div className="relative group">
+                                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                                            <input
+                                                {...register('password')}
+                                                type="password"
+                                                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.password ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white`}
+                                                placeholder="••••••••"
+                                            />
+                                        </div>
+                                        {errors.password && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.password.message}</p>}
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Teléfono Directo</label>
@@ -218,16 +232,22 @@ const CreateFacultativoModal: React.FC<CreateFacultativoModalProps> = ({ isOpen,
                                         </div>
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-slate-900 uppercase tracking-widest ml-1">Especialidad</label>
-                                        <select
-                                            {...register('especialidad_id')}
-                                            className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border ${errors.especialidad_id ? 'border-red-300' : 'border-slate-200 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white appearance-none`}
-                                        >
-                                            <option value="">Seleccionar especialidad...</option>
-                                            {specialties.map(s => (
-                                                <option key={s.id} value={s.id}>{s.nombre}</option>
-                                            ))}
-                                        </select>
+                                        <label className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest ml-1">Especialidad Sanitaria *</label>
+                                        <div className="relative">
+                                            <select
+                                                {...register('especialidad_id')}
+                                                className={`w-full px-4 py-2.5 bg-white dark:bg-slate-900 border-2 ${errors.especialidad_id ? 'border-red-300' : 'border-indigo-100 dark:border-slate-700'} rounded-xl outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm text-slate-900 dark:text-white cursor-pointer`}
+                                            >
+                                                <option value="">-- Seleccionar especialidad --</option>
+                                                {specialties.length > 0 ? (
+                                                    specialties.map(s => (
+                                                        <option key={s.id} value={s.id}>{s.nombre}</option>
+                                                    ))
+                                                ) : (
+                                                    <option disabled>Cargando lista...</option>
+                                                )}
+                                            </select>
+                                        </div>
                                         {errors.especialidad_id && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.especialidad_id.message}</p>}
                                     </div>
                                     <div className="space-y-1.5">

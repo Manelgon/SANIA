@@ -62,7 +62,9 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
             }, 2000);
         } catch (err: any) {
             console.error(err);
-            setError(err.message || 'Error al crear paciente');
+            const errorMessage = err.message || 'Error al crear paciente';
+            setError(errorMessage);
+            alert(`Error al guardar: ${errorMessage}`);
             setIsSubmitting(false);
         }
     };
@@ -114,7 +116,14 @@ const CreatePacienteModal: React.FC<CreatePacienteModalProps> = ({ isOpen, onClo
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" autoComplete="off">
+                            <form onSubmit={handleSubmit(onSubmit, (errors) => {
+                                console.log('Validation errors:', errors);
+                                // Show alert for validation errors to ensure user sees them
+                                const firstError = Object.values(errors)[0];
+                                if (firstError) {
+                                    alert(`Error de validación: ${firstError.message}`);
+                                }
+                            })} className="space-y-6" autoComplete="off">
                                 {/* Hidden inputs to trick browser autocomplete */}
                                 <input autoComplete="false" name="hidden" type="text" style={{ display: 'none' }} />
                                 <input autoComplete="false" name="hidden" type="password" style={{ display: 'none' }} />

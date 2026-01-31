@@ -113,3 +113,6 @@ BEGIN
   RETURN v_patient_id;
 END;
 $$;
+
+GRANT EXECUTE ON FUNCTION public.facultativo_create_patient(text, text, text, text, text, text, text, text, date, text, text) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.facultativo_create_patient(text, text, text, text, text, text, text, text, date, text, text) TO service_role;

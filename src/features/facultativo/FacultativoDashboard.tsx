@@ -15,8 +15,7 @@ import {
     User,
     LayoutDashboard
 } from 'lucide-react';
-import StatsCard from './components/StatsCard';
-import AgendaList from './components/AgendaList';
+import PacientesList from './components/PacientesList';
 
 const FacultativoDashboard: React.FC = () => {
     const { profile, logout } = useAuth();
@@ -52,6 +51,10 @@ const FacultativoDashboard: React.FC = () => {
         { id: 'pacientes', label: 'Pacientes', icon: <Users className="w-5 h-5" /> },
         { id: 'historial', label: 'Historial', icon: <History className="w-5 h-5" /> },
     ];
+
+    const formatTime = (isoString: string) => {
+        return new Date(isoString).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    };
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-500">
@@ -109,8 +112,8 @@ const FacultativoDashboard: React.FC = () => {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`relative pb-4 flex items-center space-x-2 text-sm font-bold transition-all duration-300 ${activeTab === tab.id
-                                        ? 'text-primary-600 dark:text-primary-400'
-                                        : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+                                    ? 'text-primary-600 dark:text-primary-400'
+                                    : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
                                     }`}
                             >
                                 {tab.icon}
@@ -126,128 +129,150 @@ const FacultativoDashboard: React.FC = () => {
 
             {/* Main Content Area */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+                {/* Sección INICIO - Dashboard Overview */}
                 {activeTab === 'resumen' && (
-                    <div className="animate-in fade-in slide-in-from-bottom-6 duration-700">
-                        {/* Stats Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                            <StatsCard
-                                label="Total Citas"
-                                value={stats.total}
-                                icon={<Calendar className="w-7 h-7 text-primary-600" />}
-                                colorClass="bg-primary-50 dark:bg-primary-900/30"
-                                delay="0ms"
-                            />
-                            <StatsCard
-                                label="Completadas"
-                                value={stats.completadas}
-                                icon={<CheckCircle className="w-7 h-7 text-success-600" />}
-                                colorClass="bg-success-50 dark:bg-success-900/30"
-                                delay="100ms"
-                            />
-                            <StatsCard
-                                label="Pendientes"
-                                value={stats.pendientes}
-                                icon={<Clock className="w-7 h-7 text-amber-600" />}
-                                colorClass="bg-amber-50 dark:bg-amber-900/30"
-                                delay="200ms"
-                            />
-                            <StatsCard
-                                label="Nuevos Pacientes"
-                                value={stats.nuevosPacientes}
-                                icon={<Users className="w-7 h-7 text-indigo-600" />}
-                                colorClass="bg-indigo-50 dark:bg-indigo-900/30"
-                                delay="300ms"
-                            />
+                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <div className="flex justify-between items-center mb-8">
+                            <div>
+                                <h2 className="text-2xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
+                                    <Activity className="text-primary-500" /> Resumen de Hoy
+                                </h2>
+                                <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">
+                                    {new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                                </p>
+                            </div>
                         </div>
-
-                        {/* Visual Agenda */}
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                            <div className="lg:col-span-2">
-                                <div className="flex items-center justify-between mb-6">
-                                    <h3 className="text-2xl font-black text-slate-800 dark:text-white flex items-center">
-                                        <Activity className="w-6 h-6 mr-2 text-primary-500" /> Agenda de Hoy
-                                    </h3>
-                                    <button className="text-sm font-bold text-primary-600 hover:text-primary-700 dark:text-primary-400 flex items-center group">
-                                        Ver calendario completo <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                                    </button>
+                        {/* Tarjetas de Estadísticas (KPIs) */}
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                            {/* Ejemplo de tarjeta azul */}
+                            <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border border-blue-200 dark:border-blue-800 rounded-xl p-5 hover:shadow-md transition-all">
+                                <div className="flex items-center justify-between mb-2">
+                                    <Calendar className="text-blue-600 dark:text-blue-400" size={24} />
+                                    <span className="text-xs font-bold text-blue-700 dark:text-blue-300 uppercase">Total</span>
                                 </div>
-
-                                {loading ? (
-                                    <div className="space-y-4">
-                                        {[1, 2, 3].map(i => (
-                                            <div key={i} className="h-24 bg-white dark:bg-slate-800 rounded-3xl animate-pulse border border-slate-100 dark:border-slate-800"></div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <AgendaList appointments={appointments} />
-                                )}
+                                <div className="text-3xl font-black text-blue-900 dark:text-blue-100">{stats.total}</div>
+                                <div className="text-xs text-blue-700 dark:text-blue-300 mt-1">Citas programadas</div>
                             </div>
 
-                            {/* Quick Actions / Info */}
-                            <div className="space-y-6">
-                                <div className="p-8 bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl text-white shadow-xl shadow-primary-500/20">
-                                    <h4 className="text-xl font-bold mb-4">Atención Rápida</h4>
-                                    <p className="text-primary-100 text-sm mb-6 leading-relaxed">
-                                        Recuerda completar el historial clínico de cada paciente al finalizar la consulta para mantener el cumplimiento RGPD.
-                                    </p>
-                                    <button className="w-full py-3 bg-white text-primary-600 font-bold rounded-2xl hover:bg-primary-50 transition-colors flex items-center justify-center">
-                                        <PlusCircle className="w-5 h-5 mr-2" />Nueva Entrada
-                                    </button>
+                            <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-5 hover:shadow-md transition-all">
+                                <div className="flex items-center justify-between mb-2">
+                                    <CheckCircle className="text-emerald-600 dark:text-emerald-400" size={24} />
+                                    <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase">Completadas</span>
                                 </div>
+                                <div className="text-3xl font-black text-emerald-900 dark:text-emerald-100">{stats.completadas}</div>
+                                <div className="text-xs text-emerald-700 dark:text-emerald-300 mt-1">Visitas realizadas</div>
+                            </div>
 
-                                <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm">
-                                    <h4 className="font-bold text-slate-800 dark:text-white mb-4">Próximo Turno</h4>
-                                    <div className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800">
-                                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Siguiente Paciente</p>
-                                        <div className="flex items-center space-x-3">
-                                            <div className="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600">
-                                                <User className="w-5 h-5" />
+                            <div className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-800/20 border border-amber-200 dark:border-amber-800 rounded-xl p-5 hover:shadow-md transition-all">
+                                <div className="flex items-center justify-between mb-2">
+                                    <Clock className="text-amber-600 dark:text-amber-400" size={24} />
+                                    <span className="text-xs font-bold text-amber-700 dark:text-amber-300 uppercase">Pendientes</span>
+                                </div>
+                                <div className="text-3xl font-black text-amber-900 dark:text-amber-100">{stats.pendientes}</div>
+                                <div className="text-xs text-amber-700 dark:text-amber-300 mt-1">Por atender</div>
+                            </div>
+
+                            <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 border border-indigo-200 dark:border-indigo-800 rounded-xl p-5 hover:shadow-md transition-all">
+                                <div className="flex items-center justify-between mb-2">
+                                    <Users className="text-indigo-600 dark:text-indigo-400" size={24} />
+                                    <span className="text-xs font-bold text-indigo-700 dark:text-indigo-300 uppercase">Nuevos</span>
+                                </div>
+                                <div className="text-3xl font-black text-indigo-900 dark:text-indigo-100">{stats.nuevosPacientes}</div>
+                                <div className="text-xs text-indigo-700 dark:text-indigo-300 mt-1">Altas recientes</div>
+                            </div>
+                        </div>
+                        {/* Lista de Próximas Citas */}
+                        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6">
+                            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-white">
+                                <Clock className="text-primary-500" size={20} />
+                                Agenda de Hoy
+                            </h3>
+                            {loading ? (
+                                <div className="space-y-4">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className="h-16 bg-slate-50 dark:bg-slate-700/50 rounded-lg animate-pulse"></div>
+                                    ))}
+                                </div>
+                            ) : appointments.length === 0 ? (
+                                <p className="text-slate-500 text-center py-8">No hay citas programadas para hoy</p>
+                            ) : (
+                                <div className="space-y-3">
+                                    {appointments.map((apt) => (
+                                        <div key={apt.id} className={`flex items-center justify-between p-4 rounded-lg border transition-all hover:shadow-md cursor-pointer group ${apt.estado === 'realizada' ? 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 opacity-60' : 'bg-white dark:bg-slate-800 border-primary-200 dark:border-primary-900/50 hover:border-primary-300'}`}>
+                                            <div className="flex items-center gap-4">
+                                                <div className={`text-center min-w-[60px] ${apt.estado === 'realizada' ? 'text-slate-400' : 'text-primary-600 dark:text-primary-400'}`}>
+                                                    <div className="text-lg font-bold">{formatTime(apt.inicio)}</div>
+                                                </div>
+                                                <div>
+                                                    <div className="font-semibold text-slate-900 dark:text-white">
+                                                        {apt.paciente?.full_name || 'Paciente desconocido'}
+                                                    </div>
+                                                    <div className="text-sm text-slate-600 dark:text-slate-400">{apt.motivo || 'Consulta general'}</div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="font-bold text-slate-800 dark:text-white">Cargando...</p>
-                                                <p className="text-xs text-slate-500">Consulta Programada</p>
+                                            {/* ... etiquetas de estado ... */}
+                                            <div className="flex items-center">
+                                                {apt.estado === 'realizada' ? (
+                                                    <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-500 text-xs font-bold rounded">Realizada</span>
+                                                ) : (
+                                                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-primary-500" />
+                                                )}
                                             </div>
                                         </div>
-                                    </div>
+                                    ))}
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                 )}
 
+                {/* Sección CONSULTA - Formulario Nueva Consulta */}
                 {activeTab === 'consulta' && (
-                    <div className="animate-in fade-in slide-in-from-bottom-6 duration-700 max-w-4xl mx-auto">
-                        <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-8">Nueva Consulta Clínica</h2>
-                        <div className="bg-white dark:bg-slate-800 p-8 rounded-[32px] border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden relative">
-                            {/* Design background flair */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full -mr-16 -mt-16"></div>
-
-                            <div className="space-y-8">
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Notas Clínicas</label>
-                                    <textarea
-                                        rows={12}
-                                        className="w-full p-6 bg-slate-50 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-700 rounded-3xl outline-none focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 transition-all text-slate-800 dark:text-slate-200 resize-none"
-                                        placeholder="Escribe aquí las observaciones médicas, anamnesis y exploración..."
-                                    ></textarea>
-                                </div>
-
-                                <div className="flex items-center justify-end space-x-4">
-                                    <button className="px-8 py-4 text-slate-500 font-bold hover:text-slate-700 dark:hover:text-slate-300">Descartar</button>
-                                    <button className="px-10 py-4 bg-primary-600 text-white font-bold rounded-2xl shadow-lg shadow-primary-500/20 hover:bg-primary-700 transition-all hover:scale-[1.02]">
-                                        Guardar Consulta
-                                    </button>
-                                </div>
+                    <div className="max-w-4xl animate-in fade-in slide-in-from-bottom-2 duration-300 mx-auto">
+                        <div className="flex justify-between items-center mb-8">
+                            <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-900 dark:text-white">
+                                <PlusCircle className="text-primary-500" /> Nueva Consulta
+                            </h2>
+                            <span className="text-xs text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700">
+                                {new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                            </span>
+                        </div>
+                        <div className="space-y-6">
+                            {/* Campo Motivo */}
+                            <div>
+                                <label className="block text-xs font-bold uppercase text-slate-600 dark:text-slate-400 mb-2 ml-1">Motivo de la visita</label>
+                                <textarea
+                                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all placeholder:text-slate-400 text-slate-900 dark:text-white min-h-[100px]"
+                                    placeholder="Describa el motivo de la consulta..."
+                                ></textarea>
+                            </div>
+                            {/* Campo Notas Clínicas */}
+                            <div>
+                                <label className="block text-xs font-bold uppercase text-slate-600 dark:text-slate-400 mb-2 ml-1">Notas Clínicas</label>
+                                <textarea
+                                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all placeholder:text-slate-400 text-slate-900 dark:text-white min-h-[200px]"
+                                    placeholder="Introduzca observaciones y evolución clínica..."
+                                ></textarea>
+                            </div>
+                            {/* Botonera de Acción */}
+                            <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-700">
+                                <button className="px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors font-medium">Cancelar</button>
+                                <button className="px-8 py-2.5 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg shadow-primary-200 dark:shadow-none font-bold">Guardar Consulta</button>
                             </div>
                         </div>
                     </div>
                 )}
 
                 {activeTab === 'pacientes' && (
-                    <div className="animate-in fade-in slide-in-from-bottom-6 duration-700 text-center py-20">
-                        <Users className="w-16 h-16 mx-auto text-slate-300 mb-6" />
-                        <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Panel de Pacientes</h2>
-                        <p className="text-slate-500 max-w-md mx-auto mt-2">Módulo en desarrollo. Aquí podrás ver el listado completo de pacientes asignados a tus carteras.</p>
+                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <div className="mb-6">
+                            <h2 className="text-2xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
+                                <Users className="text-indigo-500" /> Gestión de Pacientes
+                            </h2>
+                            <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">Busca, visualiza y da de alta nuevos pacientes en tu cartera.</p>
+                        </div>
+                        <PacientesList />
                     </div>
                 )}
 

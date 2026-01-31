@@ -4,12 +4,19 @@ import type { SignInCredentials } from '../features/auth/types';
 // Auth service implementation
 export const authService = {
     async signIn({ email, password }: SignInCredentials) {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
-        if (error) throw error;
-        return data;
+        console.log('DEBUG: Attempting login for:', email);
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+            console.log('DEBUG: Login response:', { data, error });
+            if (error) throw error;
+            return data;
+        } catch (err) {
+            console.error('DEBUG: Login threw error:', err);
+            throw err;
+        }
     },
 
     async signOut() {
